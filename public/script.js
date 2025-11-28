@@ -56,10 +56,10 @@ const googleProvider = new GoogleAuthProvider();
 const Header = ({ onNavigate, isAuthenticated, showHomeLink = false, onLogout, user }) => (
     <header className="relative z-10 flex flex-col sm:flex-row justify-between items-center px-6 py-6 max-w-7xl mx-auto w-full">
         <div className="flex flex-col leading-none mb-4 sm:mb-0 cursor-pointer group" onClick={() => onNavigate('home')}>
-            <h1 className="text-3xl font-black text-cyan-400 tracking-tight group-hover:opacity-80 transition-opacity">Monitoreo</h1>
+            <h1 className="text-3xl font-black text-cyan-400 tracking-tight group-hover:opacity-80 transition-opacity">COMPARTE</h1>
             <div className="flex items-center gap-1">
-                <span className="text-xl font-bold text-cyan-500 group-hover:opacity-80 transition-opacity">ELECTORAL</span>
-                <span className="text-sm font-light text-gray-500 tracking-widest">HN</span>
+                <span className="text-xl font-bold text-cyan-500 group-hover:opacity-80 transition-opacity">INCIDENCIAS</span>
+                <span className="text-sm font-light text-gray-500 tracking-widest"></span>
             </div>
         </div>
         <nav className="flex items-center gap-6 text-sm text-gray-500 font-medium">
@@ -388,10 +388,10 @@ const HomeView = ({ onNavigate, posts, isAuthenticated, user, onLogout }) => (
         <main className="relative z-10 max-w-6xl mx-auto px-4 flex flex-col items-center gap-8">
             <div className="w-full bg-white rounded-3xl p-8 shadow-sm text-center max-w-4xl mx-auto mt-4">
                 <h2 className="text-2xl md:text-3xl font-bold text-cyan-500 leading-snug tracking-wide">
-                    TU VOZ CUENTA.<br />
-                    COMPARTE INCIDENCIAS Y AYUDA A<br />
-                    GARANTIZAR TRANSPARENCIA<br />
-                    ELECTORAL
+                     ESTA ES UNA APORTACION DE FUNDACION<br />
+                     DE FUNDACION HONDURAS INVESTIGA Y UNEV<br />
+                     CON EL OBJETIVO DE TRANSPARENTAR<br />
+                     LAS ELECCIONES DEL 30 DE NOVIEMBRE 2025
                 </h2>
             </div>
 
