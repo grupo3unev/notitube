@@ -2,12 +2,11 @@
 
 body { 
     font-family: 'Roboto', sans-serif; 
-    /* Eliminamos el media query agresivo que tenías aquí */
 }
 
 /* Custom Input Styles */
 .auth-input-container:focus-within {
-    border-color: #22d3ee;
+    border-color: #22d3ee; /* cyan-400 */
     border-width: 2px;
 }
 
@@ -37,9 +36,23 @@ body {
     animation: fade-in 0.5s ease-out;
 }
 
+/* Evitar que se rompa el layout en grid */
 .break-inside-avoid {
     break-inside: avoid;
 }
 
-/* NO AGREGUES EL MEDIA QUERY DE 1000PX AQUÍ.
-   Deja que Tailwind maneje la responsabilidad (responsive) con clases como 'md:flex', 'lg:grid', etc. */
+/* Media Query para móvil */
+@media (max-width: 1000px) {
+    body, #root {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    main, header, footer, div, section {
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+}

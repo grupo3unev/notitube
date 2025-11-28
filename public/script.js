@@ -102,77 +102,70 @@ const PostCard = ({
     location, 
     time, 
     showUserHeader = true, 
-    showDeleteAction = false, 
-    postId, 
-    onDelete, 
-    views = 0 
-
+    showDeleteAction = false, // <-- Prop para mostrar el botón
+    postId, // <-- ID del documento
+    onDelete // <-- Función de eliminación
 }) => {
-    // Función para actualizar vistas en Firestore
-    const handleView = async () => {
-        try {
-            const postRef = doc(db, "posts", postId);
-            const postSnap = await getDoc(postRef);
-            if (postSnap.exists()) {
-                const currentViews = postSnap.data().views || 0;
-                await setDoc(postRef, { views: currentViews + 1 }, { merge: true });
-            }
-        } catch (error) {
-            console.error("Error al actualizar vistas:", error);
-        }
-    };
-
     return (
         <div className="flex flex-col gap-2 mb-6 break-inside-avoid">
-            {/* Botón eliminar */}
-            {showDeleteAction && (
+            {/* Contenedor de acciones: ELIMINAR */}
+            {showDeleteAction && ( 
                 <div className="flex items-center justify-end gap-4 mb-1">
-                    <button onClick={() => onDelete(postId)} className="flex items-center gap-1 text-red-400 hover:text-red-600">
+                    
+                    {/* Botón de ELIMINAR */}
+                    <button 
+                        onClick={() => onDelete(postId)} // Llama a la función de eliminar con el ID
+                        className="flex items-center gap-1 text-red-400 cursor-pointer hover:text-red-600 transition-colors bg-transparent border-none p-0"
+                    >
                         <i className="fas fa-trash-alt text-xs"></i>
                         <span className="text-sm font-medium">Eliminar</span>
                     </button>
                 </div>
             )}
-
-            {/* Header usuario */}
             {showUserHeader && (
                 <div className="flex items-center gap-2 mb-1">
-                    <div className="w-8 h-8 rounded-full bg-gray-300 overflow-hidden">
-                        {avatar ? <img src={avatar} alt={user} className="w-full h-full object-cover" /> : <i className="fas fa-user text-xs"></i>}
+                    <div className="w-8 h-8 rounded-full bg-gray-300 overflow-hidden flex-shrink-0">
+                        {avatar ? (
+                            <img src={avatar} alt={user} className="w-full h-full object-cover" />
+                        ) : (
+                            <div className="w-full h-full flex items-center justify-center bg-gray-400 text-white">
+                                <i className="fas fa-user text-xs"></i>
+                            </div>
+                        )}
                     </div>
                     <span className="text-sm font-semibold text-gray-800">{user}</span>
                 </div>
             )}
 
-            {/* Video */}
+            {/* Lógica de Video vs Imagen */}
             <div className="relative w-full aspect-video bg-black rounded-md overflow-hidden shadow-sm">
-                {mediaType === 'video' ? (
+                {mediaType === 'video' || (thumbnail && thumbnail.includes('firebasestorage') && !thumbnail.includes('unsplash')) ? (
                     <video 
                         src={thumbnail} 
                         controls 
                         className="w-full h-full object-contain"
-                        onPlay={handleView} // 👁️ cada reproducción suma vista
+                        preload="metadata"
                     ></video>
                 ) : (
                     <img src={thumbnail} alt={title} className="w-full h-full object-cover" />
                 )}
             </div>
 
-            {/* Info */}
             <div className="flex flex-col gap-1 px-1">
-                <h3 className="font-bold text-gray-900 text-lg">{title}</h3>
-                <p className="text-sm text-gray-600">{description}</p>
-                <div className="flex items-center gap-2 text-xs text-gray-500">
+                <div className="flex justify-between items-start">
+                    <h3 className="font-bold text-gray-900 leading-tight text-lg">{title}</h3>
+                </div>
+                <p className="text-sm text-gray-600 line-clamp-3 leading-relaxed">{description}</p>
+                <div className="flex items-center gap-1 mt-1 text-xs text-gray-500 font-medium">
                     <i className="fas fa-map-marker-alt text-red-500"></i>
                     <span>{location}</span>
-                    <span>• {time}</span>
-                    <span>• 👁️ {views} vistas</span>
+                    <span className="mx-1">•</span>
+                    <span>{time}</span>
                 </div>
             </div>
         </div>
     );
 };
-
 
 // ... (CreatePostView, LoginView, RegisterView, HomeView permanecen igual) ...
 const CreatePostView = ({ onNavigate, onPostCreate, isAuthenticated, user, onLogout }) => {
@@ -582,12 +575,12 @@ const App = () => {
     const handleCreatePost = async (postData) => {
         if (!user) return alert("Debes iniciar sesión");
         
-        try {            
+        try {
             // A) Subir Video a Storage
             const fileName = `posts/${Date.now()}_${postData.file.name}`;
             const storageRef = ref(storage, fileName);
             
-            const snapshot = await uploadBytes(storageRef,  postData.file);
+            const snapshot = await uploadBytes(storageRef, postData.file);
             
             const downloadURL = await getDownloadURL(snapshot.ref);
 
@@ -603,11 +596,8 @@ const App = () => {
                 thumbnail: downloadURL,
                 mediaType: postData.file.type.startsWith('video') ? 'video' : 'image',
                 location: "San Pedro Sula",
-                time: createdAt.toLocaleString('es-ES', { 
-                    month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' 
-                }),
-                createdAt: createdAt.toISOString(),
-                views: 0
+                time: "Hace un momento",
+                createdAt: new Date().toISOString()
             });
 
             setView('home');
