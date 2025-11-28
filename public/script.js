@@ -59,7 +59,7 @@ const Header = ({ onNavigate, isAuthenticated, showHomeLink = false, onLogout, u
             <h1 className="text-3xl font-black text-cyan-400 tracking-tight group-hover:opacity-80 transition-opacity">COMPARTE</h1>
             <div className="flex items-center gap-1">
                 <span className="text-xl font-bold text-cyan-500 group-hover:opacity-80 transition-opacity">INCIDENCIAS</span>
-                <span className="text-sm font-light text-gray-500 tracking-widest"></span>
+                <span className="text-xs font-light text-gray-500 tracking-widest">HN</span>
             </div>
         </div>
         <nav className="flex items-center gap-6 text-sm text-gray-500 font-medium">
@@ -157,9 +157,9 @@ const PostCard = ({
                 </div>
                 <p className="text-sm text-gray-600 line-clamp-3 leading-relaxed">{description}</p>
                 <div className="flex items-center gap-1 mt-1 text-xs text-gray-500 font-medium">
-                    <i className="fas fa-map-marker-alt text-red-500"></i>
+                 
                     <span>{location}</span>
-                    <span className="mx-1">•</span>
+                    <span className="mx-1"></span>
                     <span>{time}</span>
                 </div>
             </div>
@@ -276,7 +276,7 @@ const CreatePostView = ({ onNavigate, onPostCreate, isAuthenticated, user, onLog
                     {/* Footer y Botón Enviar */}
                     <div className="flex items-end justify-between border-t border-gray-100 pt-4">
                         <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
-                            <i className="fas fa-map-marker-alt text-red-500"></i> San Pedro Sula • {currentDate}
+                            
                         </div>
 
                         <button 
@@ -389,7 +389,7 @@ const HomeView = ({ onNavigate, posts, isAuthenticated, user, onLogout }) => (
             <div className="w-full bg-white rounded-3xl p-8 shadow-sm text-center max-w-4xl mx-auto mt-4">
                 <h2 className="text-2xl md:text-3xl font-bold text-cyan-500 leading-snug tracking-wide">
                      ESTA ES UNA APORTACION DE FUNDACION<br />
-                     DE FUNDACION HONDURAS INVESTIGA Y UNEV<br />
+                     HONDURAS INVESTIGA Y UNEV<br />
                      CON EL OBJETIVO DE TRANSPARENTAR<br />
                      LAS ELECCIONES DEL 30 DE NOVIEMBRE 2025
                 </h2>
@@ -405,8 +405,7 @@ const HomeView = ({ onNavigate, posts, isAuthenticated, user, onLogout }) => (
             <div className="w-full bg-white rounded-3xl shadow-lg p-6 md:p-8 min-h-[600px]">
                 <div className="flex flex-col md:flex-row items-center justify-between mb-8 pb-4 border-b border-gray-200 gap-4">
                     <button className="flex items-center gap-2 text-gray-600 font-semibold hover:text-cyan-500 transition-colors">
-                        <i className="fas fa-filter text-lg"></i>
-                        <span>Recientes</span>
+                        
                     </button>
                     <div className="flex-1 w-full md:max-w-md mx-4 relative">
                         <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
@@ -531,7 +530,6 @@ const App = () => {
                     mediaType: data.mediaType,
                     title: data.title,
                     description: data.description,
-                    location: data.location,
                     time: data.time,
                     userId: data.userId // <-- ¡IMPORTANTE! Necesario para el filtro
                 });
@@ -595,8 +593,6 @@ const App = () => {
                 userAvatar: postData.isAnonymous ? null : user.photoURL,
                 thumbnail: downloadURL,
                 mediaType: postData.file.type.startsWith('video') ? 'video' : 'image',
-                location: "San Pedro Sula",
-                time: "Hace un momento",
                 createdAt: new Date().toISOString()
             });
 
